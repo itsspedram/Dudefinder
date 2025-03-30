@@ -13,10 +13,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String?
-  email     String   @unique
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  
+  profile   Profile?
+  likesSent     Like[]     @relation("LikesSent")
+  likesReceived Like[]     @relation("LikesReceived")
+  matches1      Match[]    @relation("MatchUser1")
+  matches2      Match[]    @relation("MatchUser2")
 }
+
+model Profile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  bio       String?
+  gender    String?
+  age       Int?
+  images    String[] // Array of image URLs
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Like {
+  id         String   @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  createdAt  DateTime @default(now())
+
+  fromUser   User @relation("LikesSent", fields: [fromUserId], references: [id])
+  toUser     User @relation("LikesReceived", fields: [toUserId], references: [id])
+}
+
+model Match {
+  id        String   @id @default(cuid())
+  user1Id   String
+  user2Id   String
+  createdAt DateTime @default(now())
+
+  user1     User @relation("MatchUser1", fields: [user1Id], references: [id])
+  user2     User @relation("MatchUser2", fields: [user2Id], references: [id])
+}
+

@@ -20,12 +20,13 @@ model User {
   email     String    @unique
   password  String
   createdAt DateTime  @default(now())
-  
-  profile   Profile?
-  likesSent     Like[]     @relation("LikesSent")
-  likesReceived Like[]     @relation("LikesReceived")
-  matches1      Match[]    @relation("MatchUser1")
-  matches2      Match[]    @relation("MatchUser2")
+
+  profile        Profile?
+  likesSent      Like[]     @relation("LikesSent")
+  likesReceived  Like[]     @relation("LikesReceived")
+  matches1       Match[]    @relation("MatchUser1")
+  matches2       Match[]    @relation("MatchUser2")
+  messages       Message[]  @relation("UserMessages") // NEW
 }
 
 model Profile {
@@ -50,12 +51,25 @@ model Like {
 }
 
 model Match {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   user1Id   String
   user2Id   String
+  createdAt DateTime  @default(now())
+
+  user1     User      @relation("MatchUser1", fields: [user1Id], references: [id])
+  user2     User      @relation("MatchUser2", fields: [user2Id], references: [id])
+  messages  Message[] @relation("MatchMessages") // NEW
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  senderId  String
+  matchId   String
+  text      String
   createdAt DateTime @default(now())
 
-  user1     User @relation("MatchUser1", fields: [user1Id], references: [id])
-  user2     User @relation("MatchUser2", fields: [user2Id], references: [id])
+  sender    User   @relation("UserMessages", fields: [senderId], references: [id])
+  match     Match  @relation("MatchMessages", fields: [matchId], references: [id])
 }
+
 

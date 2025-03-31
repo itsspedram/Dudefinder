@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // 3. Check for mutual like
+    // 3. Check if the other user already liked back
     const mutualLike = await prisma.like.findFirst({
       where: {
         fromUserId: toUserId,
@@ -40,12 +40,24 @@ export async function POST(req: Request) {
     });
 
     if (mutualLike) {
-      await prisma.match.create({
-        data: {
-          user1Id: user.id,
-          user2Id: toUserId,
+      // 4. Avoid duplicate match
+      const existingMatch = await prisma.match.findFirst({
+        where: {
+          OR: [
+            { user1Id: user.id, user2Id: toUserId },
+            { user1Id: toUserId, user2Id: user.id },
+          ],
         },
       });
+
+      if (!existingMatch) {
+        await prisma.match.create({
+          data: {
+            user1Id: user.id,
+            user2Id: toUserId,
+          },
+        });
+      }
 
       return new Response(JSON.stringify({ match: true }), { status: 201 });
     }

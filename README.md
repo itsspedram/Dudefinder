@@ -1,79 +1,89 @@
+// README.md (project root)
 # 💘 Dudefinder
 
-Dudefinder is a modern full-stack dating app built with Next.js (App Router), Prisma, PostgreSQL, and NextAuth. Users can register, log in, create profiles, explore other users, swipe (like), match, and message each other.
+Dudefinder is a full-stack dating app built with **Next.js (App Router)**, **Prisma**, **PostgreSQL**, and **NextAuth**. Users can register, create profiles, explore matches, swipe/like, and chat with real-time UI feedback.
 
 ---
 
-## 🚀 Features Implemented
+## ✅ Features Completed
 
-### ✅ Authentication
-- User registration (`/api/register`)
-- Login with credentials using NextAuth
-- Session management with JWT
+### Authentication
+- User registration and login with credentials
+- Session management using NextAuth (JWT based)
 
-### ✅ Profiles
-- Create/update profile (`/api/profile`)
-- Fields: bio, age, gender, image URLs
+### User Profiles
+- Create and edit profile with:
+  - Name, bio, age, gender, image URLs
+  - Looking for (man, woman, or both)
 
-### ✅ Swiping / Matching
-- Like other users (`/api/like`)
-- Mutual likes create a Match
-- List your matches (`/api/matches`)
-- Explore users you haven't liked/matched yet (`/api/users/explore`)
+### Swiping System
+- Like/unlike users
+- Auto-create Match when two users like each other
+- Prevent duplicate match records
 
-### ✅ Messaging
-- Schema set up for real-time messages between matched users
-- Each message is linked to sender and match thread
-- Message endpoints coming next
+### Match List & Filtering
+- View list of mutual matches
+- Explore feed filtered by gender preference
+
+### Messaging
+- Chat UI between matched users
+- Message APIs to send and fetch messages
+
+### UI Enhancements
+- Global route loading indicator
+- Button-level spinners for async actions
+- Conditional rendering and auth-aware interface
 
 ---
 
-## 🧑‍💻 Tech Stack
-- **Next.js** (App Router, TypeScript)
-- **Prisma** ORM + PostgreSQL (via Railway)
+## 🛠️ Tech Stack
+- **Next.js (App Router + TypeScript)**
+- **Prisma ORM** with PostgreSQL (hosted on Railway)
 - **NextAuth.js** for authentication
 - **Tailwind CSS** for styling
 
 ---
 
-## 🧪 API Routes Summary
-| Method | Route                        | Description                         |
-|--------|------------------------------|-------------------------------------|
-| POST   | `/api/register`              | Register a new user                 |
-| POST   | `/api/auth/[...nextauth]`    | Login (NextAuth)                    |
-| POST   | `/api/profile`               | Create/update user profile          |
-| POST   | `/api/like`                  | Like a user, auto-match detection   |
-| GET    | `/api/matches`               | List of mutual matches              |
-| GET    | `/api/users/explore`         | Users available for swiping         |
-
+## 📦 API Routes Summary
+| Method | Route                    | Description                      |
+|--------|--------------------------|----------------------------------|
+| POST   | `/api/register`          | Register a new user              |
+| POST   | `/api/auth/[...nextauth]`| Login (NextAuth)                 |
+| POST   | `/api/profile`           | Create/update user profile       |
+| POST   | `/api/like`              | Like another user                |
+| GET    | `/api/matches`           | Get list of matched users        |
+| GET    | `/api/users/explore`     | Explore users for swiping        |
+| GET    | `/api/messages/:matchId` | Get messages in a match thread   |
+| POST   | `/api/messages`          | Send message to a match thread   |
 
 ---
 
 ## 🖥️ Frontend Pages
-| Route        | Description                 |
-|--------------|-----------------------------|
-| `/`          | Home (dynamic greeting)     |
-| `/login`     | Login form                  |
-| `/register`  | Registration form           |
-| `/profile`   | Profile creation/edit       |
-| `/explore`   | Browse and swipe on users   |
-| `/matches`   | View all matches            |
+| Route         | Description                     |
+|---------------|---------------------------------|
+| `/`           | Home page with session info     |
+| `/login`      | Login form                     |
+| `/register`   | Registration form              |
+| `/profile`    | Create/edit your profile       |
+| `/explore`    | Swipe and like users           |
+| `/matches`    | View matched users             |
+| `/chat/[id]`  | Chat screen per matched user   |
 
 ---
 
-## 📌 Next Up
-- 💬 Message API routes (send/get by match)
-- 💻 Chat UI per match
-- 🔔 Notifications / Realtime updates
-
----
-
-## 🛠 Dev Setup
+## 🚀 Dev Setup
 1. Clone the repo
-2. Create `.env` with `DATABASE_URL` and `NEXTAUTH_SECRET`
-3. Run `pnpm install`
-4. Run `npx prisma migrate dev`
+2. Install dependencies: `pnpm install`
+3. Create `.env` with `DATABASE_URL` and `NEXTAUTH_SECRET`
+4. Run DB migration: `npx prisma migrate dev`
 5. Start dev server: `pnpm dev`
 
+---
 
-> Built with 💖 by Pedram
+## ✨ Next Up (Optional Ideas)
+- Add image uploads (Cloudinary or UploadThing)
+- Realtime messaging (Socket.IO or polling)
+- Match previews with last message
+- Toasts for match & message alerts
+
+> Built with ❤️ by Pedram 

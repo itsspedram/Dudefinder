@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { useEffect, useState } from 'react';
 
 interface UserProfile {
@@ -17,12 +18,19 @@ interface UserProfile {
 
 export default function MatchesPage() {
   const [matches, setMatches] = useState<Match[]>([]);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetch('/api/matches')
-      .then(res => res.json())
-      .then(setMatches);
-  }, []);
+    .then(res => res.json())
+    .then(data => {
+      setMatches(data);
+      setLoading(false);
+    });
+}, []);
+
+if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
 
   return (
     <div className="max-w-2xl mx-auto mt-10 space-y-4">

@@ -1,4 +1,5 @@
 'use client';
+import Spinner from '@/components/Spinner';
 import { useEffect, useState } from 'react';
 
 interface UserProfile {
@@ -17,12 +18,17 @@ interface User {
 export default function ExplorePage() {
   const [users, setUsers] = useState<User[]>([]);
   const [likedUserIds, setLikedUserIds] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetch('/api/users/explore')
-      .then(res => res.json())
-      .then(setUsers);
-  }, []);
+    .then(res => res.json())
+    .then(data => {
+      setUsers(data);
+      setLoading(false);
+    });
+}, []);
 
   const handleLike = async (toUserId: string) => {
     const res = await fetch('/api/like', {
@@ -35,6 +41,7 @@ export default function ExplorePage() {
     alert(data.match ? "💘 It's a match!" : 'Liked!');
     setLikedUserIds(ids => [...ids, toUserId]);
   };
+  if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
 
   return (
     <div className="max-w-2xl mx-auto mt-10 space-y-4">

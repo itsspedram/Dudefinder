@@ -8,17 +8,18 @@ export async function POST(req: Request) {
   if (!user) return new Response("Unauthorized", { status: 401 });
 
   try {
-    const { bio, age, gender, images } = await req.json();
+    const { bio, age, gender, images, lookingFor } = await req.json();
 
     const profile = await prisma.profile.upsert({
       where: { userId: user.id },
-      update: { bio, age, gender, images },
+      update: { bio, age, gender, images, lookingFor },
       create: {
         userId: user.id,
         bio,
         age,
         gender,
         images,
+        lookingFor
       },
     });
 

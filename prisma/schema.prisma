@@ -33,12 +33,14 @@ model Profile {
   id        String   @id @default(cuid())
   userId    String   @unique
   bio       String?
-  gender    String?
+  gender    String?   // user's own gender
   age       Int?
-  images    String[] // Array of image URLs
+  images    String[]
+  lookingFor String?  // 👈 NEW: who the user is looking for
 
   user      User     @relation(fields: [userId], references: [id])
 }
+
 
 model Like {
   id         String   @id @default(cuid())

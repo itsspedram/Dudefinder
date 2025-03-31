@@ -14,6 +14,11 @@ export async function GET() {
       select: { toUserId: true },
     });
 
+    const currentUserProfile = await prisma.profile.findUnique({
+        where: { userId: user.id },
+      });
+      
+      const lookingFor = currentUserProfile?.lookingFor;
     const likedIds = likes.map(like => like.toUserId);
 
     // 2. Get all matched user IDs
@@ -35,9 +40,14 @@ export async function GET() {
 
     // 4. Fetch swipeable users
     const usersToSwipe = await prisma.user.findMany({
-      where: {
-        id: { notIn: excludedIds },
-      },
+        where: {
+            id: { notIn: excludedIds },
+            profile: {
+              is: {
+                gender: lookingFor === "both" ? undefined : lookingFor, // 👈 filter by gender
+              },
+            },
+          },
       include: {
         profile: true,
       },

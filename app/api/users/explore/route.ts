@@ -3,6 +3,7 @@ import { getAuthUser } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
+
 export async function GET() {
   const user = await getAuthUser();
   if (!user) return new Response("Unauthorized", { status: 401 });

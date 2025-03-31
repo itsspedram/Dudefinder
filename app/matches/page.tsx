@@ -1,36 +1,36 @@
 'use client';
-import Spinner from '@/components/Spinner';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Spinner from '@/components/Spinner';
+import Button from '@/components/Button';
 
-interface UserProfile {
+interface MatchUser {
+  id: string;
+  name?: string;
+  email?: string;
+  matchedAt: string;
+  matchId: string;
+  profile?: {
     bio?: string;
     age?: number;
     gender?: string;
-  }
-  
-  interface Match {
-    id: string;
-    name?: string;
-    email?: string;
-    profile?: UserProfile;
-    matchedAt: string;
-  }
+  };
+}
 
 export default function MatchesPage() {
-  const [matches, setMatches] = useState<Match[]>([]);
+  const [matches, setMatches] = useState<MatchUser[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     fetch('/api/matches')
-    .then(res => res.json())
-    .then(data => {
-      setMatches(data);
-      setLoading(false);
-    });
-}, []);
+      .then(res => res.json())
+      .then(data => {
+        setMatches(data);
+        setLoading(false);
+      });
+  }, []);
 
-if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
+  if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
 
   return (
     <div className="max-w-2xl mx-auto mt-10 space-y-4">
@@ -50,6 +50,9 @@ if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>
               </>
             )}
             <p className="text-xs text-gray-400 mt-2">Matched at: {new Date(match.matchedAt).toLocaleString()}</p>
+            <Link href={`/chat/${match.matchId}`}>
+              <Button className="mt-4 w-full">Chat</Button>
+            </Link>
           </div>
         ))
       )}

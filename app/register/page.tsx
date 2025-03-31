@@ -2,11 +2,13 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Button from '@/components/Button';
 
 export default function RegisterPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
     if (session) router.replace('/');
@@ -14,10 +16,14 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     const res = await fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify(form),
       headers: { 'Content-Type': 'application/json' },
+    }).then(res => {
+      setIsLoading(false);
+      return res;
     });
     if (res.ok) router.push('/login');
   };
@@ -29,7 +35,7 @@ export default function RegisterPage() {
         <input className="w-full p-2 border rounded" placeholder="Name" onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
         <input className="w-full p-2 border rounded" placeholder="Email" onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
         <input className="w-full p-2 border rounded" type="password" placeholder="Password" onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
-        <button type="submit" className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600">Register</button>
+        <Button loading={isLoading} type="submit" className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600">Register</Button>
       </form>
     </div>
   );

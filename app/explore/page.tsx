@@ -1,6 +1,7 @@
 'use client';
 import Spinner from '@/components/Spinner';
 import { useEffect, useState } from 'react';
+import Button from '@/components/Button';
 
 interface UserProfile {
   bio?: string;
@@ -19,6 +20,8 @@ export default function ExplorePage() {
   const [users, setUsers] = useState<User[]>([]);
   const [likedUserIds, setLikedUserIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
 
 
   useEffect(() => {
@@ -31,12 +34,13 @@ export default function ExplorePage() {
 }, []);
 
   const handleLike = async (toUserId: string) => {
+    setIsLoading(true);
     const res = await fetch('/api/like', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toUserId }),
     });
-
+setIsLoading(false);
     const data = await res.json();
     alert(data.match ? "💘 It's a match!" : 'Liked!');
     setLikedUserIds(ids => [...ids, toUserId]);
@@ -60,13 +64,13 @@ export default function ExplorePage() {
                 <p className="text-sm text-gray-500">Gender: {user.profile.gender}</p>
               </>
             )}
-            <button
+            <Button
               disabled={likedUserIds.includes(user.id)}
-              onClick={() => handleLike(user.id)}
+              onClick={() => handleLike(user.id)}  loading={isLoading} 
               className="mt-4 w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600 disabled:opacity-50"
             >
               {likedUserIds.includes(user.id) ? 'Liked' : 'Like'}
-            </button>
+            </Button>
           </div>
         ))
       )}

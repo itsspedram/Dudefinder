@@ -9,9 +9,15 @@ export async function POST(req: Request) {
 
   const { matchId, text } = await req.json();
 
-  if (!matchId || !text) return new Response("Missing fields", { status: 400 });
+  if (!matchId || !text?.trim()) {
+    return new Response("Missing fields", { status: 400 });
+  }
 
-  // Confirm this user is part of the match
+  // 🔍 Debug
+  console.log("✉️ Message from:", user.id);
+  console.log("➡️ Match ID:", matchId);
+
+  // Confirm the user is part of the match
   const match = await prisma.match.findFirst({
     where: {
       id: matchId,
@@ -22,13 +28,16 @@ export async function POST(req: Request) {
     },
   });
 
-  if (!match) return new Response("Forbidden", { status: 403 });
+  if (!match) {
+    console.warn("🚫 User not part of this match");
+    return new Response("Forbidden", { status: 403 });
+  }
 
   const message = await prisma.message.create({
     data: {
       senderId: user.id,
       matchId,
-      text,
+      text: text.trim(),
     },
   });
 

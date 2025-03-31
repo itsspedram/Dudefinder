@@ -2,11 +2,14 @@
 import { useSession, signIn } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Button from '@/components/Button';
 
 export default function LoginPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     if (session) router.replace('/');
@@ -14,11 +17,13 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     const res = await signIn('credentials', {
       redirect: false,
       email: form.email,
       password: form.password,
     });
+    setIsLoading(false);
     if (!res?.error) router.push('/dashboard');
   };
 
@@ -28,7 +33,7 @@ export default function LoginPage() {
       <form onSubmit={handleLogin} className="space-y-4">
         <input className="w-full p-2 border rounded" placeholder="Email" onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
         <input className="w-full p-2 border rounded" type="password" placeholder="Password" onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
-        <button type="submit" className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600">Login</button>
+        <Button loading={isLoading} type="submit">Login</Button>
       </form>
     </div>
   );

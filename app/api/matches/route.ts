@@ -34,6 +34,7 @@ export async function GET() {
         email: otherUser.email,
         profile: otherUser.profile,
         matchedAt: match.createdAt,
+        matchId: match.id,
       };
     });
 

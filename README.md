@@ -1,36 +1,96 @@
 # 💘 Dudefinder
 
-Dudefinder is a full-stack dating app built with **Next.js (App Router)**, **Prisma**, **PostgreSQL**, and **NextAuth**. Users can register, create profiles, explore matches, like others, and chat if matched.
+Dudefinder is a modern fullstack dating app built with **Next.js**, **Prisma**, and **Socket.IO**, now organized as a **Turbo monorepo** for scalable development. It's fast, fun, and designed for love (or at least for swiping 👀).
 
 ---
 
-## ✅ Features Completed
+## 🧠 Features
 
-### Authentication
-- Register/login with email & password using NextAuth.js
-- Session-based UI
+- 🧑‍🤝‍🧑 User registration & login (NextAuth)
+- 📄 Profile creation with gender, age, bio & image gallery
+- ❤️ Like system + automatic match detection
+- 💬 Real-time chat via Socket.IO
+- 🔥 TurboRepo-based dev setup for frontend + backend
+- 🎨 Tailwind UI with loading states & feedback
+- ✅ Type-safe backend with Prisma + PostgreSQL
 
-### User Profiles
-- Bio, age, gender, images
-- Preferences (looking for: man/woman/both)
+---
 
-### Explore & Match
-- See filtered users based on preference
-- Like users, detect mutual likes → auto-create match
-- Only matched users can access chats
+## 📁 Project Structure
 
-### Messaging
-- Chat between matched users
-- Full GET/POST API with match validation
-- Frontend UI for sending and reading messages
-- Error handling for unauthorized access
-- Real-time feel (soon to be improved)
+```
+my-dating-app/
+├── app/                 # Next.js app (frontend + API routes)
+├── components/          # Shared UI components
+├── lib/                 # Utility helpers (auth, fetchers, etc)
+├── prisma/              # Prisma schema & migrations
+├── public/              # Public assets
+├── socket-server/       # Socket.IO backend (Express + TS)
+├── turbo.json           # TurboRepo config
+├── pnpm-workspace.yaml  # pnpm monorepo config
+└── README.md
+```
 
-### UI & UX
-- Reusable button with loading state
-- Session-aware navbar with conditional links
-- Global route loading spinner
-- Form loading feedback
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/my-dating-app.git
+cd my-dating-app
+```
+
+### 2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env` file in the root:
+
+```env
+DATABASE_URL=postgresql://...
+NEXTAUTH_SECRET=your_super_secret
+NEXTAUTH_URL=http://localhost:3000
+```
+
+Make sure your PostgreSQL DB is running (Railway recommended).
+
+### 4. Migrate database
+
+```bash
+npx prisma migrate dev
+```
+
+---
+
+## 🚀 Start Development
+
+To run **both Next.js and the Socket.IO server** side by side:
+
+```bash
+pnpm dev:web
+```
+
+This runs via **TurboRepo**:
+
+- 🧠 `http://localhost:3000` → Next.js app
+- 💬 `http://localhost:4000` → Socket.IO backend
+
+You can also run them individually:
+
+```bash
+# Start only the Next.js app
+pnpm dev
+
+# Start only the socket server
+cd socket-server
+pnpm dev
+```
 
 ---
 
@@ -61,35 +121,58 @@ Dudefinder is a full-stack dating app built with **Next.js (App Router)**, **Pri
 
 ---
 
-## 🚀 Dev Setup
+## 🧱 Tech Stack
+
+| Layer     | Tech                        |
+|-----------|-----------------------------|
+| Frontend  | Next.js 15, Tailwind CSS    |
+| Backend   | Prisma, PostgreSQL, Express |
+| Auth      | NextAuth.js                 |
+| Realtime  | Socket.IO                   |
+| Dev Tool  | TurboRepo + pnpm            |
+
+---
+
+## 🛠️ Upcoming Features
+
+- [x] Swipe & match logic
+- [x] Messaging system (chat)
+- [x] Match detection & profile filtering
+- [ ] Typing indicators
+- [ ] Match preview cards
+- [ ] Realtime toast notifications
+- [ ] Avatar builder
+- [ ] Better seed data
+- [ ] Reactions in chat
+
+---
+
+## 🧑‍💻 Dev Scripts
+
 ```bash
-pnpm install
+# Start dev with TurboRepo
+pnpm dev:web
+
+# Build
+pnpm build
+
+# Lint
+pnpm lint
+
+# Prisma
+npx prisma studio  # View DB
 npx prisma migrate dev
-pnpm dev
-```
-
-Create `.env` file with:
-```
-DATABASE_URL=...
-NEXTAUTH_SECRET=...
 ```
 
 ---
 
-## 🧠 Recent Fixes & Progress
-- Fixed critical mismatch bug between `matchId` vs `userId` in chat logic
-- Backend now validates match ownership correctly
-- Chat now fully works for both sides after match
-- Match list returns actual match ID
+## 🤝 Contributions
+
+If you're reading this... you're already hot 💅  
+Feel free to fork and contribute!
 
 ---
 
-## 🎯 Next Ideas
-- Auto-refresh chat (polling or sockets)
-- Chat header with partner's name and avatar
-- Match preview with latest message
-- Swipe UI for explore page
-- Notifications & toast system
+## 🫡 License
 
----
-> Built with ❤️ by Pedram and lots of console logs
+MIT – Built with ❤️ by Pedram and lots of console logs

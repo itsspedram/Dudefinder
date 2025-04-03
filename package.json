@@ -1,10 +1,11 @@
 {
   "name": "my-dating-app",
   "version": "0.1.0",
-  "private": true,
+  "private": true, 
   "scripts": {
+    "dev:web": "turbo run dev --parallel",
     "dev": "next dev --turbopack",
-    "build": "next build",
+     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -29,6 +30,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "tailwindcss": "^4",
+    "turbo": "^2.5.0",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@9.1.4"
 }

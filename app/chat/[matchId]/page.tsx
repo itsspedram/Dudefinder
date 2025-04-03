@@ -2,6 +2,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Spinner from '@/components/Spinner';
+import Button from '@/components/Button';
 
 interface Message {
   id: string;
@@ -18,12 +20,20 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchMessages = async () => {
+    const res = await fetch(`/api/messages/${matchId}`);
+    const data = await res.json();
+    setMessages(data);
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (!matchId) return;
-    fetch(`/api/messages/${matchId}`)
-      .then(res => res.json())
-      .then(setMessages);
+    fetchMessages();
+    const interval = setInterval(() => fetchMessages(), 5000);
+    return () => clearInterval(interval);
   }, [matchId]);
 
   useEffect(() => {
@@ -41,6 +51,8 @@ export default function ChatPage() {
     setMessages(msgs => [...msgs, newMsg]);
     setText('');
   };
+
+  if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4">
@@ -67,12 +79,7 @@ export default function ChatPage() {
           onChange={e => setText(e.target.value)}
           placeholder="Type a message..."
         />
-        <button
-          className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
-          onClick={sendMessage}
-        >
-          Send
-        </button>
+        <Button onClick={sendMessage}>Send</Button>
       </div>
     </div>
   );

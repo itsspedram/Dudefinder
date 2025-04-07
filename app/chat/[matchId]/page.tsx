@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 import Button from '@/components/Button';
+import { getSocket } from '@/lib/socket';
 
 interface Message {
   id: string;
@@ -19,21 +20,30 @@ export default function ChatPage() {
   const { matchId } = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
-  const bottomRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
-
-  const fetchMessages = async () => {
-    const res = await fetch(`/api/messages/${matchId}`);
-    const data = await res.json();
-    setMessages(data);
-    setLoading(false);
-  };
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!matchId) return;
-    fetchMessages();
-    const interval = setInterval(() => fetchMessages(), 5000);
-    return () => clearInterval(interval);
+
+    // Initial load
+    fetch(`/api/messages/${matchId}`)
+      .then(res => res.json())
+      .then(data => {
+        setMessages(data);
+        setLoading(false);
+      });
+
+    const socket = getSocket();
+    socket.emit('join', matchId);
+
+    socket.on('message:new', (message: Message) => {
+      setMessages(msgs => [...msgs, message]);
+    });
+
+    return () => {
+      socket.off('message:new');
+    };
   }, [matchId]);
 
   useEffect(() => {
@@ -47,9 +57,12 @@ export default function ChatPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ matchId, text }),
     });
+
     const newMsg = await res.json();
     setMessages(msgs => [...msgs, newMsg]);
     setText('');
+
+    getSocket().emit('message:new', { matchId, message: newMsg });
   };
 
   if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;

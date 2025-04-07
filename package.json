@@ -1,11 +1,11 @@
 {
   "name": "my-dating-app",
   "version": "0.1.0",
-  "private": true, 
+  "private": true,
   "scripts": {
     "dev:web": "turbo run dev --parallel",
     "dev": "next dev --turbopack",
-     "build": "next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,7 +19,8 @@
     "prisma": "^6.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.55.0"
+    "react-hook-form": "^7.55.0",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

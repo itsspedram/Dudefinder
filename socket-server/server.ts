@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
     socket.to(matchId).emit('message:new', message);
   });
 
+  socket.on('typing', ({ matchId }) => {
+    socket.to(matchId).emit('typing');
+  });
+
   socket.on('disconnect', () => {
     console.log('🔴 User disconnected:', socket.id);
   });

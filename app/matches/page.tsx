@@ -1,36 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import { useMatches } from '@/lib/hooks/useMatches';
 import Link from 'next/link';
 import Spinner from '@/components/Spinner';
 import Button from '@/components/Button';
 
-interface MatchUser {
-  id: string;
-  name?: string;
-  email?: string;
-  matchedAt: string;
-  matchId: string;
-  profile?: {
-    bio?: string;
-    age?: number;
-    gender?: string;
-  };
-}
 
 export default function MatchesPage() {
-  const [matches, setMatches] = useState<MatchUser[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/matches')
-      .then(res => res.json())
-      .then(data => {
-        setMatches(data);
-        setLoading(false);
-      });
-  }, []);
+  const { matches, loading } = useMatches();
 
   if (loading) return <div className="flex justify-center mt-20"><Spinner /></div>;
+
 
   return (
     <div className="max-w-2xl mx-auto mt-10 space-y-4">

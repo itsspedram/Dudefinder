@@ -1,4 +1,3 @@
-// lib/hooks/useChatMessages.ts
 import { useEffect, useState, useRef } from 'react';
 import { getSocket } from '@/lib/socket';
 

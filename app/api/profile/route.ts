@@ -1,7 +1,23 @@
 import { PrismaClient } from "@prisma/client";
-import { getAuthUser } from "@/lib/auth"
+import { getAuthUser } from "@/lib/auth";
 
 const prisma = new PrismaClient();
+
+export async function GET(req: Request) {
+  const user = await getAuthUser();
+  if (!user) return new Response("Unauthorized", { status: 401 });
+
+  try {
+    const profile = await prisma.profile.findUnique({
+      where: { userId: user.id },
+    });
+
+    return new Response(JSON.stringify(profile), { status: 200 });
+  } catch (error) {
+    console.error("Profile fetch error:", error);
+    return new Response("Error fetching profile", { status: 500 });
+  }
+}
 
 export async function POST(req: Request) {
   const user = await getAuthUser();
@@ -25,7 +41,7 @@ export async function POST(req: Request) {
 
     return new Response(JSON.stringify(profile), { status: 200 });
   } catch (error) {
-    console.error("Profile error:", error);
-    return new Response("Error creating profile", { status: 500 });
+    console.error("Profile save error:", error);
+    return new Response("Error saving profile", { status: 500 });
   }
 }

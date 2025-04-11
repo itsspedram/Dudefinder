@@ -9,7 +9,6 @@ export async function GET() {
   if (!user) return new Response("Unauthorized", { status: 401 });
 
   try {
-    // 1. Get all user IDs you've liked
     const likes = await prisma.like.findMany({
       where: { fromUserId: user.id },
       select: { toUserId: true },

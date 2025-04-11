@@ -8,8 +8,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password, name } = body;
 
-    if (!email || !password) {
-      return new Response("Missing email or password", { status: 400 });
+    if (!email || !password || !name) {
+      return new Response("Missing fields", { status: 400 });
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -25,12 +25,18 @@ export async function POST(req: Request) {
         email,
         name,
         password: hashedPassword,
+        profile: {
+          create: {} // create empty profile to prevent 401 on /api/profile
+        }
+      },
+      include: {
+        profile: true,
       },
     });
 
     return new Response(JSON.stringify(user), { status: 201 });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Register Error:", error);
     return new Response("Internal server error", { status: 500 });
   }
 }

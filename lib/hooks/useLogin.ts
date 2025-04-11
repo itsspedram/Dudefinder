@@ -23,7 +23,7 @@ export function useLoginForm() {
 
     setIsLoading(false);
     if (!res?.error) {
-      router.push('/dashboard');
+      router.push('/');
     }
   };
 

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+
 
 interface UserProfile {
   bio?: string;
@@ -38,8 +40,8 @@ export function useExploreUsers() {
     setIsLiking(false);
 
     const data = await res.json();
-    if (data.match) alert("💘 It's a match!");
-    else alert('Liked!');
+    if (data.match) toast.success("💘 It's a match!"); 
+    else toast.success("Liked!");
 
     setLikedUserIds(ids => [...ids, toUserId]);
   };

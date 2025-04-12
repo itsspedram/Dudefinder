@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+
 
 interface ProfileFormState {
   bio: string;
@@ -50,8 +52,8 @@ export function useProfileForm() {
     });
     setLoading(false);
     setIsEditing(false);
-    alert('Profile saved!');
-  };
+    toast.success('Profile saved!');
+};
 
   return {
     form,

@@ -13,6 +13,8 @@ Dudefinder is a modern fullstack dating app built with **Next.js**, **Prisma**, 
 - 🔥 TurboRepo-based dev setup for frontend + backend
 - 🎨 Tailwind UI with loading states & feedback
 - ✅ Type-safe backend with Prisma + PostgreSQL
+- 🎉 Toast notifications for actions like match/save/login
+- ⚙️ Clean architecture using custom React hooks for all API calls
 
 ---
 
@@ -99,7 +101,7 @@ pnpm dev
 |--------|------------------------------|----------------------------------|
 | POST   | `/api/register`              | Register a new user              |
 | POST   | `/api/auth/[...nextauth]`    | Handle login/logout              |
-| POST   | `/api/profile`               | Create or update profile         |
+| GET/POST | `/api/profile`               | Create, update, or fetch profile |
 | POST   | `/api/like`                  | Like a user                      |
 | GET    | `/api/matches`               | Get matched users                |
 | GET    | `/api/users/explore`         | Get users based on preferences   |
@@ -108,20 +110,20 @@ pnpm dev
 
 ---
 
-## 🖥️ Pages
-| Route           | Purpose                    |
-|------------------|-----------------------------|
-| `/`             | Home                       |
-| `/login`        | Login                      |
-| `/register`     | Register                   |
-| `/profile`      | Edit user profile          |
-| `/explore`      | Discover and like users    |
-| `/matches`      | See matches + start chat   |
-| `/chat/[matchId]` | Chat with matched user     |
+## 💽 Pages
+| Route             | Purpose                        |
+|------------------|---------------------------------|
+| `/`              | Home                           |
+| `/login`         | Login                          |
+| `/register`      | Register                       |
+| `/profile`       | View & edit profile            |
+| `/explore`       | Discover and like users        |
+| `/matches`       | See matches + start chat       |
+| `/chat/[matchId]`| Chat with matched user         |
 
 ---
 
-## 🧱 Tech Stack
+## 📊 Tech Stack
 
 | Layer     | Tech                        |
 |-----------|-----------------------------|
@@ -138,16 +140,17 @@ pnpm dev
 - [x] Swipe & match logic
 - [x] Messaging system (chat)
 - [x] Match detection & profile filtering
-- [ ] Typing indicators
-- [ ] Match preview cards
-- [ ] Realtime toast notifications
+- [x] Typing indicators
+- [x] Match preview cards
+- [x] Toast notifications for key actions
 - [ ] Avatar builder
 - [ ] Better seed data
 - [ ] Reactions in chat
+- [ ] Chat header enhancements
 
 ---
 
-## 🧑‍💻 Dev Scripts
+## 🧱 Dev Scripts
 
 ```bash
 # Start dev with TurboRepo

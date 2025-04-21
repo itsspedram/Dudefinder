@@ -6,6 +6,7 @@ interface UserProfile {
   bio?: string;
   age?: number;
   gender?: string;
+  images?: string[];
 }
 
 interface User {

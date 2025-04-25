@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import SessionWrapper from '@/components/SessionWrapper';
 import Navbar from '@/components/Navbar';
 import { Toaster } from 'react-hot-toast';
+import Global401Redirect from "@/components/Global401Redirect.tsx";
+
 
 
 
@@ -33,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Global401Redirect />
         <Toaster />
         <SessionWrapper>
         <Navbar />

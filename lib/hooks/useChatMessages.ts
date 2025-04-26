@@ -16,11 +16,15 @@ interface MatchUser {
 }
 
 export function useChatMessages(matchId: string) {
+  const socket = getSocket();
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [matchUser, setMatchUser] = useState<MatchUser | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 
   useEffect(() => {
     if (!matchId) return;
@@ -34,7 +38,6 @@ export function useChatMessages(matchId: string) {
       setLoading(false);
     });
 
-    const socket = getSocket();
     socket.emit('join', matchId);
 
     socket.on('message:new', (message: Message) => {
@@ -50,7 +53,7 @@ export function useChatMessages(matchId: string) {
       socket.off('message:new');
       socket.off('typing');
     };
-  }, [matchId]);
+  }, [matchId,socket]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -68,7 +71,11 @@ export function useChatMessages(matchId: string) {
   };
 
   const emitTyping = () => {
-    getSocket().emit('typing', { matchId });
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("typing", { matchId });
+    }, 300); // 300ms debounce
   };
 
   return { messages, loading, isTyping, matchUser, sendMessage, emitTyping, bottomRef };

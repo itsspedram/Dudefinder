@@ -15,6 +15,8 @@ Dudefinder is a modern fullstack dating app built with **Next.js**, **Prisma**, 
 - ✅ Type-safe backend with Prisma + PostgreSQL
 - 🎉 Toast notifications for actions like match/save/login
 - ⚙️ Clean architecture using custom React hooks for all API calls
+- 🔐 Global 401 redirect to login page for unauthorized users
+- ❌ Custom 404 Not Found page
 
 ---
 
@@ -120,6 +122,7 @@ pnpm dev
 | `/explore`       | Discover and like users        |
 | `/matches`       | See matches + start chat       |
 | `/chat/[matchId]`| Chat with matched user         |
+| `/not-found`     | 404 fallback page              |
 
 ---
 
@@ -143,6 +146,9 @@ pnpm dev
 - [x] Typing indicators
 - [x] Match preview cards
 - [x] Toast notifications for key actions
+- [x] Global fetch 401 redirect
+- [x] Responsive swipe UI with animations
+- [x] Custom 404 page
 - [ ] Avatar builder
 - [ ] Better seed data
 - [ ] Reactions in chat
@@ -176,6 +182,4 @@ Feel free to fork and contribute!
 
 ---
 
-## 🫡 License
-
-MIT – Built with ❤️ by Pedram and lots of console logs
+with ❤️ by Pedram and lots of console logs

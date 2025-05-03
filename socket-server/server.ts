@@ -36,6 +36,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log('🚀 Socket.io server running on http://localhost:4000');
+server.listen(4444, () => {
+  console.log('🚀 Socket.io server running on http://localhost:4444');
 });

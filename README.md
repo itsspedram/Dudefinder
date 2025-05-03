@@ -83,7 +83,7 @@ pnpm dev:web
 This runs via **TurboRepo**:
 
 - 🧠 `http://localhost:3000` → Next.js app
-- 💬 `http://localhost:4000` → Socket.IO backend
+- 💬 `http://localhost:4444` → Socket.IO backend
 
 You can also run them individually:
 

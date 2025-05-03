@@ -4,7 +4,7 @@ let socket: Socket;
 
 export const getSocket = (): Socket => {
   if (!socket) {
-    socket = io('http://localhost:4000', {
+    socket = io('http://localhost:4444', {
       reconnectionAttempts: 5, // Try 5 times before giving up
       reconnectionDelay: 1000,  // Wait 1 second between retries
     });

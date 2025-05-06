@@ -41,8 +41,10 @@ export default function ExplorePage() {
     );
 
   return (
-    <div className="max-w-sm sm:max-w-md md:max-w-lg mx-auto mt-10 space-y-4 px-4">
-      <h2 className="text-3xl font-bold text-center text-pink-600">💘 Explore Users</h2>
+    <div className="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto mt-10 space-y-4 px-4">
+      <h2 className="text-3xl font-bold text-center text-pink-600">
+        💘 Explore Users
+      </h2>
 
       <div className="relative h-[520px]">
         {nextUser && (
@@ -57,7 +59,12 @@ export default function ExplorePage() {
           preventSwipe={["up", "down"]}
           className="absolute w-full h-full z-10"
         >
-          <UserCard user={currentUser} swipeLabel={swipeLabel} onDislike={() => swiped("left", currentUser.id)} onLike={() => swiped("right", currentUser.id)} />
+          <UserCard
+            user={currentUser}
+            swipeLabel={swipeLabel}
+            onDislike={() => swiped("left", currentUser.id)}
+            onLike={() => swiped("right", currentUser.id)}
+          />
         </TinderCard>
       </div>
     </div>

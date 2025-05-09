@@ -153,6 +153,8 @@ pnpm dev
 - [ ] Better seed data
 - [ ] Reactions in chat
 - [ ] Chat header enhancements
+- [ ] 🎮 Add casual in-app games
+- [ ] 🐳 Dockerize the full stack for deployment
 
 ---
 
@@ -175,12 +177,33 @@ npx prisma migrate dev
 
 ---
 
-## 🤝 Contributions
+## 👩‍💻 Developer Notes
 
-If you're reading this... you're already hot 💅  
-Feel free to fork and contribute!
+### Environment Setup
+1. Copy `.env.example` to `.env` and fill in your credentials.
+2. Run:
+   ```bash
+   pnpm install
+   npx prisma migrate dev
+   pnpm dev:web
+   ```
+
+### Folder Tips
+- `lib/hooks`: Reusable logic per feature
+- `components/`: Dumb UI blocks only
+- `app/`: Next.js routes and API handlers
+- `socket-server/`: Express + Socket.IO backend
 
 ---
 
+## 🤝 Contributions
 
-with ❤️ by Pedram and lots of console logs
+Pull requests are welcome! For major changes:
+1. Open an issue first.
+2. Use conventional commit messages (e.g. `feat:`, `fix:`).
+3. Run `pnpm lint` before pushing.
+
+
+---
+
+MIT – Built with ❤️ by Pedram and lots of console logs
